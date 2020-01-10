@@ -1,0 +1,5 @@
+<launch>
+  <include file="$(find bubbles_pid)/launch/bubbles_pid.launch" />
+  <include file="$(find bubbles_sensors)/launch/state_publisher.launch" />
+  <include file="$(find bubbles_cv)/launch/launch_all.launch" />
+</launch>

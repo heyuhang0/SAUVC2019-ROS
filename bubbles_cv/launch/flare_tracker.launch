@@ -1,0 +1,8 @@
+<launch>
+    <arg name="ns" default="flare"/>
+    <arg name="camera_topic" default="/bubbles/bubbles/camera/camera_image"/>
+
+    <node name="tracker" pkg="bubbles_cv" type="flare_tracker.py" ns="$(arg ns)" output="screen">
+      <remap from="/$(arg ns)/image" to="/$(arg camera_topic)"/>
+    </node>
+</launch>

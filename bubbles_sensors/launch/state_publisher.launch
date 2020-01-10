@@ -1,0 +1,11 @@
+<launch>
+  <arg name="ns" default="bubbles_state"/>
+  <arg name="robot_ns" default="bubbles"/>
+
+  <group ns="$(arg ns)">
+    <node name="state_publisher" pkg="bubbles_sensors" type="state_publisher.py" output="screen">
+      <remap from="/$(arg ns)/input/imu" to="/$(arg robot_ns)/imu"/>
+      <remap from="/$(arg ns)/input/pressure" to="/$(arg robot_ns)/pressure"/>
+    </node>
+  </group>
+</launch>

@@ -1,0 +1,53 @@
+<launch>
+  <arg name="ns" default="bubbles_pid"/>
+  <arg name="robot_ns" default="bubbles"/>
+  <arg name="state_ns" default="bubbles_state"/>
+
+  <group ns="$(arg ns)">
+
+    <node name="bubbles_pid" pkg="bubbles_pid" type="bubbles_pid.py" output="screen">
+      <remap from="/$(arg ns)/control_effort" to="/$(arg robot_ns)/thruster_manager/input"/>
+    </node>
+
+    <node name="controller" pkg="pid" type="controller" ns="yaw" output="screen" >
+      <param name="Kp" value="10" />
+      <param name="Ki" value="3.0" />
+      <param name="Kd" value="0.0" />
+      <param name="upper_limit" value="1" />
+      <param name="lower_limit" value="-1" />
+      <param name="windup_limit" value="10" />
+      <param name="angle_error" value="true" />
+      <remap from="state" to="/$(arg state_ns)/yaw"/>
+    </node>
+
+    <node name="controller" pkg="pid" type="controller" ns="pitch" output="screen" >
+      <param name="Kp" value="2.0" />
+      <param name="Ki" value="0.02" />
+      <param name="Kd" value="0.0" />
+      <param name="upper_limit" value="1" />
+      <param name="lower_limit" value="-1" />
+      <param name="windup_limit" value="10" />
+      <remap from="state" to="/$(arg state_ns)/pitch"/>
+    </node>
+
+    <node name="controller" pkg="pid" type="controller" ns="roll" output="screen" >
+      <param name="Kp" value="2.0" />
+      <param name="Ki" value="0.02" />
+      <param name="Kd" value="0.0" />
+      <param name="upper_limit" value="1" />
+      <param name="lower_limit" value="-1" />
+      <param name="windup_limit" value="10" />
+      <remap from="state" to="/$(arg state_ns)/roll"/>
+    </node>
+
+    <node name="controller" pkg="pid" type="controller" ns="depth" output="screen" >
+      <param name="Kp" value="2.0" />
+      <param name="Ki" value="0.2" />
+      <param name="Kd" value="0.0" />
+      <param name="upper_limit" value="1" />
+      <param name="lower_limit" value="-1" />
+      <param name="windup_limit" value="3" />
+      <remap from="state" to="/$(arg state_ns)/depth"/>
+    </node>
+  </group>
+</launch>
