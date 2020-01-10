@@ -7,7 +7,7 @@
 * Clone this project to your catkin workspace
 ```
 cd ~/catkin_ws/src
-git clone https://github.com/heyuhang0/sauvc_simulator.git
+git clone https://github.com/heyuhang0/SAUVC2019-ROS.git
 ```
 * Install dependencies
 ```
@@ -51,5 +51,3 @@ catkin_make
 ![image](https://user-images.githubusercontent.com/10456378/72126508-52354800-33a7-11ea-91c5-76d825bf73ca.png)
 
 ![image](https://user-images.githubusercontent.com/10456378/72126566-80b32300-33a7-11ea-96dd-a57d90d450eb.png)
-
-![rosgraph](https://user-images.githubusercontent.com/10456378/72127390-721a3b00-33aa-11ea-93ad-5f78dc28fd2e.png)
