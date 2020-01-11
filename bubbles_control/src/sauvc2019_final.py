@@ -180,7 +180,7 @@ class FinalRoundStrategy(BaseStrategy):
             return 'finished'
 
     def __init__(self):
-        super().__init__()
+        super().__init__(outcomes=['succeeded'])
 
         with self.sm:
             smach.StateMachine.add(

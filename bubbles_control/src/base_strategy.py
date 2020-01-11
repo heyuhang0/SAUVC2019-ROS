@@ -50,10 +50,10 @@ class Output:
 
 
 class BaseStrategy:
-    def __init__(self):
+    def __init__(self, outcomes=[], input_keys=[], output_keys=[]):
         rospy.init_node('strategy')
 
-        self.sm = smach.StateMachine(outcomes=['succeeded', 'aborted'])
+        self.sm = smach.StateMachine(outcomes, input_keys, output_keys)
 
         try:
             import smach_ros
@@ -78,16 +78,16 @@ class BaseStrategy:
 
         self._time_last_publish = 0
 
-    def _on_yaw_update(self, msg: Float64):
+    def _on_yaw_update(self, msg):
         if self._yaw_first_update:
             self._yaw_first_update = False
             self.input.initial_yaw = msg.data
         self.input.current_yaw = msg.data
 
-    def _on_gate_pos_update(self, msg: BoundingBox2D):
+    def _on_gate_pos_update(self, msg):
         self.input.gate_pos = msg
 
-    def _on_flare_pos_update(self, msg: BoundingBox2D):
+    def _on_flare_pos_update(self, msg):
         self.input.flare_pos = msg
 
     def _on_output_update(self):
