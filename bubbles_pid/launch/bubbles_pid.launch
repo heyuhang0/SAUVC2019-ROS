@@ -42,11 +42,11 @@
 
     <node name="controller" pkg="pid" type="controller" ns="depth" output="screen" >
       <param name="Kp" value="2.0" />
-      <param name="Ki" value="0.2" />
+      <param name="Ki" value="0.5" />
       <param name="Kd" value="0.0" />
       <param name="upper_limit" value="1" />
       <param name="lower_limit" value="-1" />
-      <param name="windup_limit" value="3" />
+      <param name="windup_limit" value="5" />
       <remap from="state" to="/$(arg state_ns)/depth"/>
     </node>
   </group>
