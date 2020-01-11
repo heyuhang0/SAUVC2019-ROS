@@ -54,6 +54,14 @@ class BaseStrategy:
         rospy.init_node('strategy')
 
         self.sm = smach.StateMachine(outcomes=['succeeded', 'aborted'])
+
+        try:
+            import smach_ros
+            sis = smach_ros.IntrospectionServer('server_name', self.sm, '/sm')
+            sis.start()
+        except Exception:
+            pass
+
         self.input = Input()
         self.output = Output(self._on_output_update)
 
