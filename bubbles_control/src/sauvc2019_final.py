@@ -60,8 +60,32 @@ class FinalRoundStrategy(BaseStrategy):
             rate = rospy.Rate(100)
             start_time = time.time()
             while not rospy.is_shutdown():
+                gate_pose = self.outer.input.gate_pos
+
                 self.outer.output.speed = 0.8
-                self.outer.output.target_yaw = self.outer.input.initial_yaw
+                if gate_pose.size_x < 0:
+                    self.outer.output.target_yaw = self.outer.input.initial_yaw
+                else:
+                    self.outer.output.current_yaw = \
+                        self.outer.input.current_yaw - 0.001 * gate_pose.center.x
+                self.outer.output.target_depth = 1
+
+                if time.time() - start_time > 15:
+                    return 'finished'
+
+                rate.sleep()
+
+    class LeaveGate(smach.State):
+        def __init__(self, outer: BaseStrategy):
+            smach.State.__init__(self, outcomes=['finished'])
+            self.outer = outer
+
+        def execute(self, userdata):
+            rate = rospy.Rate(100)
+            start_time = time.time()
+            while not rospy.is_shutdown():
+                self.outer.output.speed = 0.8
+                self.outer.output.target_yaw = 0.85
                 self.outer.output.target_depth = 1
 
                 if time.time() - start_time > 10:
@@ -80,13 +104,13 @@ class FinalRoundStrategy(BaseStrategy):
             while not rospy.is_shutdown():
                 self.outer.output.speed = 0.8
                 self.outer.output.target_yaw = \
-                    0.85 + 0.26 * math.sin(time.time())
+                    0.85 + 0.4 * math.sin(time.time())
                 self.outer.output.target_depth = 1.3
 
                 if self.outer.input.flare_pos.size_x > 0:
                     return 'found_flare'
 
-                if time.time() - start_time > 60:
+                if time.time() - start_time > 50:
                     return 'time_out'
 
                 rate.sleep()
@@ -174,6 +198,12 @@ class FinalRoundStrategy(BaseStrategy):
             )
             smach.StateMachine.add(
                 'PassGate', self.PassGate(self),
+                transitions={
+                    'finished': 'LeaveGate'
+                }
+            )
+            smach.StateMachine.add(
+                'LeaveGate', self.LeaveGate(self),
                 transitions={
                     'finished': 'SearchFlare'
                 }
