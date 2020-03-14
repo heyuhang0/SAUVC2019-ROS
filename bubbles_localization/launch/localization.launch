@@ -1,4 +1,8 @@
 <launch>
+  <include file="$(find bubbles_localization)/launch/optical_odometer.launch">
+    <arg name="debug" value="False"/>
+  </include>
+
   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization_node">
     <param name="frequency" value="20" />
     <param name="sensor_timeout" value="0.1" />
@@ -14,9 +18,19 @@
       true,  true,  true,
       false, false, false,
       false, false, false,
-      true,  true,  true]
+      false, false, false]
     </rosparam>
     <param name="imu0_remove_gravitational_acceleration" value="true"/>
     <param name="imu0_differential" value="false"/>
+
+    <param name="odom0" value="/bubbles/odometer"/>
+    <rosparam param="odom0_config">
+      [false, false, true,
+       false, false, false,
+       true,  true,  false,
+       false, false, false,
+       false, false, false]
+    </rosparam>
+  
   </node>
 </launch>
