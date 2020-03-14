@@ -16,8 +16,8 @@ class PIDNode:
         trans_matrix = np.identity(6)
         X, Y, Z, AX, AY, AZ = range(6)
         rospy.Subscriber('yaw/control_effort',   Float64, self.callback_factory(trans_matrix[AZ]))
-        rospy.Subscriber('pitch/control_effort', Float64, self.callback_factory(trans_matrix[AX]))
-        rospy.Subscriber('roll/control_effort',  Float64, self.callback_factory(trans_matrix[AY]))
+        rospy.Subscriber('roll/control_effort', Float64, self.callback_factory(trans_matrix[AX]))
+        rospy.Subscriber('pitch/control_effort',  Float64, self.callback_factory(trans_matrix[AY]))
         rospy.Subscriber('depth/control_effort', Float64, self.callback_factory(-trans_matrix[Z]))
         rospy.Subscriber('speed/setpoint',       Float64, self.callback_factory(trans_matrix[X]))
 

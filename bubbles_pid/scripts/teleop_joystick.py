@@ -26,8 +26,8 @@ class TeleopNode:
             yaw += 0.003 * (self.last_joy_axes[0])
             yaw_pub.publish(Float64(yaw))
             speed_pub.publish(self.last_joy_axes[1])
-            pitch_pub.publish(-self.last_joy_axes[3])
-            roll_pub.publish(self.last_joy_axes[4])
+            pitch_pub.publish(self.last_joy_axes[4])
+            roll_pub.publish(-self.last_joy_axes[3])
 
             rate.sleep()
 
