@@ -21,7 +21,7 @@ class StatePublisher:
 
     def imu_callback(self, msg):
         quaternion = [msg.orientation.x, msg.orientation.y, msg.orientation.z, msg.orientation.w]
-        pitch, roll, yaw = euler_from_quaternion(quaternion)
+        roll, pitch, yaw = euler_from_quaternion(quaternion)
         self.yaw_pub.publish(Float64(data=yaw))
         self.roll_pub.publish(Float64(data=roll))
         self.pitch_pub.publish(Float64(data=pitch))
