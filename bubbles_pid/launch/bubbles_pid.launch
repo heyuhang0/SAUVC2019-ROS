@@ -49,5 +49,8 @@
       <param name="windup_limit" value="5" />
       <remap from="state" to="/$(arg state_ns)/depth"/>
     </node>
+
+    <node name="setpoint_once" pkg="bubbles_pid" type="setpoint_once.py" output="screen"/>
+
   </group>
 </launch>
