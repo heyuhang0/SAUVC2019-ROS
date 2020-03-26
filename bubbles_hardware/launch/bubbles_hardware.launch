@@ -1,6 +1,7 @@
 <launch>
   <arg name="namespace" default="bubbles"/>
   <arg name="mcu_port" default="/dev/ttyUSB_MCU"/>
+  <arg name="imu_port" default="/dev/ttyUSB_IMU"/>
 
   <include file="$(find bubbles_hardware)/launch/mcu.launch">
     <arg name="namespace" value="$(arg namespace)"/>
@@ -9,5 +10,10 @@
 
   <include file="$(find bubbles_hardware)/launch/cameras.launch">
     <arg name="namespace" value="$(arg namespace)"/>
+  </include>
+
+  <include file="$(find bubbles_hardware)/launch/imu.launch">
+    <arg name="namespace" value="$(arg namespace)"/>
+    <arg name="port" value="$(arg imu_port)"/>
   </include>
 </launch>
