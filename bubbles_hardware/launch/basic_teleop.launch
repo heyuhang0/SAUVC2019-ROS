@@ -1,0 +1,9 @@
+<launch>
+  <arg name="namespace" default="bubbles"/>
+
+  <node name="joy_node" pkg="joy" type="joy_node"/>
+  <node name="basic_teleop" pkg="bubbles_hardware" type="basic_teleop.py">
+    <remap from="/basic_teleop/output" to="/$(arg namespace)/thruster_manager/input" />
+  </node>
+
+</launch>

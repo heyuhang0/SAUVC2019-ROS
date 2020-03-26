@@ -1,0 +1,11 @@
+<launch>
+  <arg name="namespace" default="bubbles"/>
+  <arg name="mcu_port" default="/dev/ttyUSB0"/>
+
+  <group ns="$(arg namespace)">
+    <node name="thruster_manager" pkg="bubbles_hardware" type="thruster_manager.py" output="screen">
+      <param name="port" value="$(arg mcu_port)" />
+    </node>
+  </group>
+
+</launch>
