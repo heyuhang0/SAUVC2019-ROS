@@ -17,7 +17,7 @@ class ThrusterManagerNode:
             [1,  0,  0,  0,  0,  1],  # right rear motor
             [0,  0,  1,  0,  1,  0]   # rear motor
         ])
-        self.output = np.array([1500.0] * len(self.tranform_matrix))
+        self.output = np.array([1488.0] * len(self.tranform_matrix))
 
         rospy.init_node(self.node_name)
         rospy.Subscriber(self.node_name + '/input', Twist, self.input_callback)
@@ -49,7 +49,7 @@ class ThrusterManagerNode:
             [msg.linear.x], [msg.linear.y], [msg.linear.z],
             [msg.angular.x], [msg.angular.y], [msg.angular.z]
         ])
-        self.output = (self.tranform_matrix @ control_vector) * 400 + 1500
+        self.output = (self.tranform_matrix @ control_vector) * 400 + 1488
 
 
 if __name__ == '__main__':

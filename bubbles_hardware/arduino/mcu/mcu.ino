@@ -5,18 +5,22 @@
 
 #define MOTOR_FL 2
 #define MOTOR_FR 3
-#define MOTOR_BL 4
-#define MOTOR_BR 5
-#define MOTOR_TA 6
+#define MOTOR_BL 6
+#define MOTOR_BR 7
+#define MOTOR_TA 8
 
+#define PULSE_MIN  1148
+#define PULSE_MAX  1832
+#define PULSE_ZERO 1488
 
 Servo motor_fl, motor_fr, motor_bl, motor_br, motor_ta;
 MS5837 depth_sensor;
 
 void setup() {
-  Wire.begin();
   Serial.begin(19200);
+  Serial.println("message:Start initialization");
 
+  Wire.begin();
   pinMode(MOTOR_FL, OUTPUT);
   pinMode(MOTOR_FR, OUTPUT);
   pinMode(MOTOR_BL, OUTPUT);
@@ -29,20 +33,33 @@ void setup() {
   motor_br.attach(MOTOR_BR);
   motor_ta.attach(MOTOR_TA);
 
-  motor_fl.writeMicroseconds(1500);
-  motor_fr.writeMicroseconds(1500);
-  motor_bl.writeMicroseconds(1500);
-  motor_br.writeMicroseconds(1500);
-  motor_ta.writeMicroseconds(1500);
+  Serial.println("message:Start arming motors");
+
+  motor_fl.writeMicroseconds(PULSE_MAX);
+  motor_fr.writeMicroseconds(PULSE_MAX);
+  motor_bl.writeMicroseconds(PULSE_MAX);
+  motor_br.writeMicroseconds(PULSE_MAX);
+  motor_ta.writeMicroseconds(PULSE_MAX);
+  delay(500);
+
+  motor_fl.writeMicroseconds(PULSE_ZERO);
+  motor_fr.writeMicroseconds(PULSE_ZERO);
+  motor_bl.writeMicroseconds(PULSE_ZERO);
+  motor_br.writeMicroseconds(PULSE_ZERO);
+  motor_ta.writeMicroseconds(PULSE_ZERO);
+  delay(500);
+
+  Serial.println("message:Finish arming");
 
   while (!depth_sensor.init()) {
     Serial.println("message:Init failed!");
     Serial.println("message:Are SDA/SCL connected correctly?");
     Serial.println("message:Blue Robotics Bar30: White=SDA, Green=SCL");
-    delay(5000);
+    delay(1000);
   }
   
-  depth_sensor.setModel(MS5837::MS5837_02BA);
+  Serial.println("message:Sensor initialized");
+  depth_sensor.setModel(MS5837::MS5837_30BA);
   depth_sensor.setFluidDensity(997); // kg/m^3 (freshwater, 1029 for seawater)
 }
 
