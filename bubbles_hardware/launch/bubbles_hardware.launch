@@ -1,6 +1,6 @@
 <launch>
   <arg name="namespace" default="bubbles"/>
-  <arg name="mcu_port" default="/dev/ttyUSB0"/>
+  <arg name="mcu_port" default="/dev/ttyUSB_MCU"/>
 
   <include file="$(find bubbles_hardware)/launch/mcu.launch">
     <arg name="namespace" value="$(arg namespace)"/>
