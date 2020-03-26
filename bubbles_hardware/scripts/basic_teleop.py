@@ -15,7 +15,7 @@ class BasicTeleopNode:
         output = Twist()
         output.linear.x = msg.axes[1]
         output.linear.y = 0
-        output.linear.z = msg.axes[2] - msg.axes[5]
+        output.linear.z = (msg.axes[2] - msg.axes[5]) * 0.5
         output.angular.x = -msg.axes[3]
         output.angular.y = msg.axes[4]
         output.angular.z = msg.axes[0]
