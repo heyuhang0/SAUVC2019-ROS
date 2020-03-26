@@ -1,9 +1,18 @@
 <launch>
   <arg name="namespace" default="bubbles"/>
 
-  <include file="$(find video_stream_opencv)/launch/camera.launch">
-    <arg name="video_stream_provider" value="0"/>
-    <arg name="camera_name" value="camera"/>
-  </include>
+  <group ns="/$(arg namespace)/$(arg namespace)/camera">
+    <node pkg="video_stream_opencv" type="video_stream" name="camera_stream" output="screen"> 
+      <remap from="camera" to="camera_image" />
+      <param name="video_stream_provider" type="string" value="0" />
+      <param name="camera_name" type="string" value="camera" />
+      <param name="buffer_queue_size" type="int" value="10" />
+      <param name="frame_id" type="string" value="camera" />
+      <param name="set_camera_fps" type="double" value="60" />
+      <param name="fps" type="double" value="60" />
+      <param name="width" type="int" value="1920" />
+      <param name="height" type="int" value="1080" />
+    </node>
+  </group>
 
 </launch>

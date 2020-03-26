@@ -1,0 +1,13 @@
+<launch>
+  <arg name="namespace" default="bubbles"/>
+  <arg name="mcu_port" default="/dev/ttyUSB0"/>
+
+  <include file="$(find bubbles_hardware)/launch/mcu.launch">
+    <arg name="namespace" value="$(arg namespace)"/>
+    <arg name="mcu_port" value="$(arg mcu_port)"/>
+  </include>
+
+  <include file="$(find bubbles_hardware)/launch/cameras.launch">
+    <arg name="namespace" value="$(arg namespace)"/>
+  </include>
+</launch>
