@@ -26,31 +26,49 @@ class ThrusterManagerNode:
 
         serial_port = rospy.get_param('~port')
 
-        while True:
+        while not rospy.is_shutdown():
             try:
                 ser = serial.Serial(serial_port, 19200, timeout=1)
                 rate = rospy.Rate(100)
                 while not rospy.is_shutdown():
-                    ser.write((','.join(str(int(n)) for n in self.output.ravel()) + '\n').encode('utf-8'))
-                    message = ser.readline().decode('utf-8').strip()
-                    if message.startswith('message'):
-                        print(message)
-                    elif message.startswith('pressure'):
-                        try:
+                    rate.sleep()
+                    # send motor values
+                    motor_values = ','.join(str(int(n)) for n in self.output.ravel())
+                    ser.write((motor_values + '\n').encode('utf-8'))
+
+                    # read message
+                    message_bytes = ser.readline()
+                    if (self.message_damaged(message_bytes)):
+                        print('Message damaged:', [int(b) for b in message_bytes])
+                        continue
+
+                    # parse message
+                    message = message_bytes.decode('utf-8').strip()
+                    try:
+                        if message.startswith('message'):
+                            print(message)
+                        elif message.startswith('pressure'):
                             data = float(message.split(':')[1])  # in mBar
                             message = FluidPressure()
                             message.fluid_pressure = data / 10  # in kPa
                             pressure_pub.publish(message)
-                        except Exception as e:
-                            print(e)
-                    rate.sleep()
+                    except Exception as e:
+                        print(e, 'when parse', message)
             except serial.serialutil.SerialException as e:
+                # reopen serial port in case of SerialException
                 print(e)
                 try:
                     ser.close()
                 except Exception:
                     pass
                 time.sleep(0.3)
+
+    def message_damaged(self, message: bytes):
+        for b in message:
+            # only allow ascii characters in message
+            if b > 127:
+                return True
+        return False
 
     def input_callback(self, msg: Twist):
         control_vector = np.array([
