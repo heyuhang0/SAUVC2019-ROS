@@ -21,8 +21,8 @@
     </node>
 
     <node name="controller" pkg="pid" type="controller" ns="pitch" output="screen" >
-      <param name="Kp" value="2.0" />
-      <param name="Ki" value="0.02" />
+      <param name="Kp" value="1.0" />
+      <param name="Ki" value="0.00" />
       <param name="Kd" value="0.0" />
       <param name="upper_limit" value="1" />
       <param name="lower_limit" value="-1" />
@@ -31,8 +31,8 @@
     </node>
 
     <node name="controller" pkg="pid" type="controller" ns="roll" output="screen" >
-      <param name="Kp" value="2.0" />
-      <param name="Ki" value="0.02" />
+      <param name="Kp" value="1.2" />
+      <param name="Ki" value="0.00" />
       <param name="Kd" value="0.0" />
       <param name="upper_limit" value="1" />
       <param name="lower_limit" value="-1" />
@@ -41,8 +41,8 @@
     </node>
 
     <node name="controller" pkg="pid" type="controller" ns="depth" output="screen" >
-      <param name="Kp" value="2.0" />
-      <param name="Ki" value="0.5" />
+      <param name="Kp" value="1.5" />
+      <param name="Ki" value="0.0" />
       <param name="Kd" value="0.0" />
       <param name="upper_limit" value="1" />
       <param name="lower_limit" value="-1" />
