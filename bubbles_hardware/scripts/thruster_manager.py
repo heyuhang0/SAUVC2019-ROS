@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import serial
+import time
 import rospy
 import numpy as np
 from geometry_msgs.msg import Twist
@@ -24,25 +25,32 @@ class ThrusterManagerNode:
         pressure_pub = rospy.Publisher('pressure', FluidPressure, queue_size=10)
 
         serial_port = rospy.get_param('~port')
-        ser = serial.Serial(serial_port, 19200, timeout=1)
-        rate = rospy.Rate(100)
-        while not rospy.is_shutdown():
+
+        while True:
             try:
-                ser.write((','.join(str(int(n)) for n in self.output.ravel()) + '\n').encode('utf-8'))
-                message = ser.readline().decode('utf-8').strip()
-                if message.startswith('message'):
-                    print(message)
-                elif message.startswith('pressure'):
-                    try:
-                        data = float(message.split(':')[1])  # in mBar
-                        message = FluidPressure()
-                        message.fluid_pressure = data / 10  # in kPa
-                        pressure_pub.publish(message)
-                    except Exception as e:
-                        print(e)
+                ser = serial.Serial(serial_port, 19200, timeout=1)
+                rate = rospy.Rate(100)
+                while not rospy.is_shutdown():
+                    ser.write((','.join(str(int(n)) for n in self.output.ravel()) + '\n').encode('utf-8'))
+                    message = ser.readline().decode('utf-8').strip()
+                    if message.startswith('message'):
+                        print(message)
+                    elif message.startswith('pressure'):
+                        try:
+                            data = float(message.split(':')[1])  # in mBar
+                            message = FluidPressure()
+                            message.fluid_pressure = data / 10  # in kPa
+                            pressure_pub.publish(message)
+                        except Exception as e:
+                            print(e)
+                    rate.sleep()
             except serial.serialutil.SerialException as e:
                 print(e)
-            rate.sleep()
+                try:
+                    ser.close()
+                except Exception:
+                    pass
+                time.sleep(0.3)
 
     def input_callback(self, msg: Twist):
         control_vector = np.array([
