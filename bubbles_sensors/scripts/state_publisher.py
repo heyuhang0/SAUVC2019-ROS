@@ -24,7 +24,7 @@ class StatePublisher:
         roll, pitch, yaw = euler_from_quaternion(quaternion)
         self.yaw_pub.publish(Float64(data=yaw))
         self.roll_pub.publish(Float64(data=roll))
-        self.pitch_pub.publish(Float64(data=pitch))
+        self.pitch_pub.publish(Float64(data=-pitch))
 
     def pressure_callback(self, msg):
         pressure = msg.fluid_pressure
