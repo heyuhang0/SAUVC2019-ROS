@@ -13,10 +13,10 @@ class ThrusterManagerNode:
         self.tranform_matrix = np.array([
             # x  y   z roll pitch yaw
             [0,  0,  1,  1, -1,  0],  # left front motor
-            [0,  0,  1, -1, -1,  0],  # right front motor
-            [1,  0,  0,  0,  0, -1],  # left rear motor
+            [0,  0, -1,  1,  1,  0],  # right front motor
+            [-1, 0,  0,  0,  0,  1],  # left rear motor
             [1,  0,  0,  0,  0,  1],  # right rear motor
-            [0,  0,  1,  0,  1,  0]   # rear motor
+            [0,  0, -1,  0, -1,  0]   # rear motor
         ])
         self.output = np.array([1488.0] * len(self.tranform_matrix))
 
