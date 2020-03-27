@@ -10,8 +10,8 @@
       <param name="frame_id" type="string" value="camera" />
       <param name="set_camera_fps" type="double" value="60" />
       <param name="fps" type="double" value="60" />
-      <param name="width" type="int" value="1920" />
-      <param name="height" type="int" value="1080" />
+      <param name="width" type="int" value="640" />
+      <param name="height" type="int" value="360" />
     </node>
   </group>
 
